@@ -1,0 +1,27 @@
+The following is an explanation and a setup for the Python program titled: Amazon Geo Data Puller
+
+The purpose of the program is to have a one click ETL pipeline from getting the file, to database insertion and formatting. The program runs through Amazons Vendor Central terminal, takes the file, transforms it by adding different datatypes, columns and views, then inserts it into the production database. 
+
+One issue that is worked through on this program is Amazon having 2FA for bot protection. However, them working on user satisfaction caused it to be bypass-able. They have some sort of trust variable programmed into the program so if you successfully do the 2FA about 5 times, it stops asking entirely. After doing it 5 or 6 times, I take the browser data from those sessions and have the Selenium automation instance run off of them. 
+
+The data that is being extracted and transformed is the Geographical Insights that Amazon reports to all vendors. It is about 250000 rows of data per week. It includes locations, sales, sales differences to prior period, and more. 
+
+The data is being transformed by formatting each column to not have spaces or characters that may break the loading process. Amazon also includes report names at the top which have to be bypassed. Nulls are replaced with 0's and a new column is added at the end.
+
+The data is then loaded in using a loop which inserts all rows of data at once.
+
+Setup(Turn on line numbers for ease of reading and setup):
+
+1. Download Python
+2. Using Pypi, pip install selenium, pandas, shutil, and pyodbc.
+3. At lines 17 and 18 you'll be putting the location of your user browser data and where you want the file to go once its downloaded respectively. The former is to bypass the 2FA, so if you haven't already, you wanna log in and log out until the 2FA prompts disappear.
+4. At line 86, put the path where the file is located after download.
+5. At line 109, in the connection, input the server name and database name where prompted. The ODBC driver should be already installed on your computer as it usually comes with windows.
+6. At line 122, input the table name to which you want it to load the data into.
+7. If you have a Stored Procedure on the SQL side like I do where the data is further modified, call it on line 149, otherwise just comment that portion out.
+8. At line 159, set the file location including the file name in the "Old file name" location. In the File Archive Location, input the location of where you want the used file to be archived, including what you want it to be called.
+
+The file is now ready to be run.
+
+
+Created by Adam Nitecki(IVLIVSCAESAR44)
